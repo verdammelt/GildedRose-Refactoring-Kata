@@ -66,3 +66,6 @@ class Item
     "#{@name}, #{@sell_in}, #{@quality}"
   end
 end
+
+class ConjuredItem < Item
+end

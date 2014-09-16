@@ -8,6 +8,13 @@ describe GildedRose do
       GildedRose.new(items).update_quality()
       items[0].name.should == "fixme"
     end
+describe ConjuredItem do
+  it 'should inherit from Item' do
+    conjured = ConjuredItem.new('yo', 1, 10)
+    expect(conjured).to respond_to(:name)
+    expect(conjured).to respond_to(:sell_in)
+    expect(conjured).to respond_to(:quality)
   end
+end
 
 end
