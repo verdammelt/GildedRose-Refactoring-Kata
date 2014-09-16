@@ -4,48 +4,59 @@ class GildedRose
     @items = items
   end
 
+  def is_conjured_item?(item)
+    item.name.include?("Conjured") # really should check for starts-with
+  end
+
   def update_quality()
     @items.each do |item|
-      if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
+      quality_delta = 1
+      name = item.name
+
+      if is_conjured_item?(item)
+        quality_delta = 2
+      end
+
+      if name != "Aged Brie" and name != "Backstage passes to a TAFKAL80ETC concert"
         if item.quality > 0
-          if item.name != "Sulfuras, Hand of Ragnaros"
-            item.quality = item.quality - 1
+          if name != "Sulfuras, Hand of Ragnaros"
+            item.quality = item.quality - quality_delta
           end
         end
       else
         if item.quality < 50
-          item.quality = item.quality + 1
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
+          item.quality = item.quality + quality_delta
+          if name == "Backstage passes to a TAFKAL80ETC concert"
             if item.sell_in < 11
               if item.quality < 50
-                item.quality = item.quality + 1
+                item.quality = item.quality + quality_delta
               end
             end
             if item.sell_in < 6
               if item.quality < 50
-                item.quality = item.quality + 1
+                item.quality = item.quality + quality_delta
               end
             end
           end
         end
       end
-      if item.name != "Sulfuras, Hand of Ragnaros"
+      if name != "Sulfuras, Hand of Ragnaros"
         item.sell_in = item.sell_in - 1
       end
       if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != "Backstage passes to a TAFKAL80ETC concert"
+        if name != "Aged Brie"
+          if name != "Backstage passes to a TAFKAL80ETC concert"
             if item.quality > 0
-              if item.name != "Sulfuras, Hand of Ragnaros"
-                item.quality = item.quality - 1
+              if name != "Sulfuras, Hand of Ragnaros"
+                item.quality = item.quality - quality_delta
               end
             end
           else
-            item.quality = item.quality - item.quality
+            item.quality = 0
           end
         else
           if item.quality < 50
-            item.quality = item.quality + 1
+            item.quality = item.quality + quality_delta
           end
         end
       end
